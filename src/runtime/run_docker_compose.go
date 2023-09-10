@@ -1,4 +1,4 @@
-package main
+package runtime
 
 import (
 	"fmt"
@@ -9,16 +9,20 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/Allen-Ning/dev-run/config"
+	"github.com/Allen-Ning/dev-run/services"
 	"gopkg.in/yaml.v2"
 )
 
-func runDockerCompose(config *Config, downloadDir string) {
+const commonNetwork = "common_network"
+
+func RunDockerCompose(config *config.Config, downloadDir string) {
 	err := createCommonNetwork()
 	if err != nil {
 		log.Fatalf("Failed to create common network: %v\n", err)
 	}
 
-	allServices, err := listServices(config, downloadDir)
+	allServices, err := services.ListServices(config, downloadDir)
 	if err != nil {
 		log.Fatalf("Failed to list services: %v\n", err)
 	}
@@ -52,7 +56,7 @@ func createCommonNetwork() error {
 	return nil
 }
 
-func updateAndRunDockerCompose(repo, downloadDir string, allServices []ServiceInfo) error {
+func updateAndRunDockerCompose(repo, downloadDir string, allServices []services.ServiceInfo) error {
 	repoName := filepath.Base(repo)
 	repoName = repoName[:len(repoName)-4] // Remove .git extension
 	repoPath := filepath.Join(downloadDir, repoName)

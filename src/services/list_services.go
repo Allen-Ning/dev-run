@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"fmt"
@@ -7,10 +7,11 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/Allen-Ning/dev-run/config"
 	"gopkg.in/yaml.v2"
 )
 
-func listServices(config *Config, downloadDir string) ([]ServiceInfo, error) {
+func ListServices(config *config.Config, downloadDir string) ([]ServiceInfo, error) {
 	var wg sync.WaitGroup
 	servicesCh := make(chan ServiceInfo, len(config.Repositories))
 	errCh := make(chan error, len(config.Repositories))

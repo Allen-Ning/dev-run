@@ -1,4 +1,4 @@
-package main
+package repositories
 
 import (
 	"fmt"
@@ -9,9 +9,11 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+
+	"github.com/Allen-Ning/dev-run/config"
 )
 
-func cloneRepositories(config *Config, downloadDir string) error {
+func CloneRepositories(config *config.Config, downloadDir string) error {
 	var wg sync.WaitGroup
 
 	// Check if download directory exists, create it if it doesn't

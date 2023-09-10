@@ -1,14 +1,25 @@
-package main
+package services
 
 import (
 	"fmt"
 	"log"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/Allen-Ning/dev-run/config"
 )
 
-func runTargetService(config *Config, downloadDir, targetService string) error {
-	services, err := listServices(config, downloadDir)
+type ServiceInfo struct {
+	Repo    string
+	Service string
+}
+
+type DockerCompose struct {
+	Services map[string]interface{} `yaml:"services"`
+}
+
+func RunTargetService(config *config.Config, downloadDir, targetService string) error {
+	services, err := ListServices(config, downloadDir)
 	if err != nil {
 		return err
 	}
